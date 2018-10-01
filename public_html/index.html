@@ -6,71 +6,18 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Primitiva</title>
+        <title>CaLottery</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="main.css"/>
     </head>
     <body>
-        <div id="app"></div>
-        <span class="error-message"></span>
+        <div class="container">
+            <h1>Power Ball Ticket</h1>
+            <div id="app"></div>
+            <div class="error-message"></div>
+        </div>
         
         <script src="main.js"></script>
-        <script>
-            const numberOfElements = 7;
-            
-            let numbers = [];
-            let output = '';
-            for (let i = 0; i < numberOfElements; i++) {
-                output += '<input id="' + i + '" type="text" class="number" min="1" max="49">';
-            }
-            
-            document.getElementById('app').innerHTML = output;
-            
-            // number fields
-            let inputs = document.querySelectorAll('.number');
-            
-            // listen for events
-            inputs.forEach(input => {
-                input.addEventListener('blur', e => {
-                    console.log('value: ', e.target.value);
-                    if (e.target.value < "1" || e.target.value > "49") {
-                        document.getElementById(e.target.id).classList.add('invalid');
-                    }
-                    
-                    let myNumber = e.target.value;
-                    console.log(myNumber);
-                    console.log(numbers);
-                    let isInArray = isNumberInArray(numbers, myNumber);
-                    console.log('in array? ', isInArray);
-
-                    if (!isInArray) {
-                        numbers[e.target.id] = myNumber;
-                        document.querySelector('.error-message').innerHTML = '';
-                        document.getElementById(e.target.id).classList.remove('invalid');
-                    } else if (myNumber === '') {
-                        document.querySelector('.error-message').innerHTML = 'Empty value in cell ' + e.target.id;
-                    } else {
-                        document.querySelector('.error-message').innerHTML = myNumber + ' is already in the array';
-                        document.getElementById(e.target.id).value = '';
-                    }
-
-                    console.log(numbers);
-                });
-            });
-            
-//            if (repeat) {
-//                console.log('numbers are repeated!')
-//            } else {
-//                console.log('numbers are ok')
-//            }
-//            console.log(numbers);
-//            document.addEventListener('click', () => {
-//                document.getElementsByClassName('casilla')
-//            })
-
-            
-
-        </script>
     </body>
 </html>

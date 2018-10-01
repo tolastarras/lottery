@@ -12,25 +12,43 @@ body {
     background: #eee;
 }
 
+.center-text {
+    text-align: center;
+}
+
 .invalid {
     border: 1px solid red;
 }
 
 #app {
-    width: 30em;
-    border: 1px solid gray;
+    width: 436px;
+    height: 486px;
     margin: 2em auto;
     text-align: center;
+    background: url('lotto.jpg');
 }
 
 #app > input {
     border: 2px solid #ddd;
     line-height: 1.5em;
     background: white;
-    margin-right: 4px;
+    margin-right: 10px;
+    margin-top: 14.2em;
     font-size: 1.2em;
     padding: 0;
     width: 40px;
     text-align: center;
+}
+
+#app > input:last-child {
+    margin-left: 2em;
+}
+
+.container {
+    text-align: center;
+}
+
+.error-message {
+    color: darkred;
 }
 

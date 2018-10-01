@@ -22,7 +22,7 @@ and open the template in the editor.
             let numbers = [];
             let output = '';
             for (let i = 0; i < numberOfElements; i++) {
-                output += '<input id="' + i + '" type="number" class="number" min="1" max="49">';
+                output += '<input id="' + i + '" type="text" class="number" min="1" max="49">';
             }
             
             document.getElementById('app').innerHTML = output;
@@ -34,26 +34,28 @@ and open the template in the editor.
             inputs.forEach(input => {
                 input.addEventListener('blur', e => {
                     console.log('value: ', e.target.value);
-                    if (e.target.value < 1 || e.target.value > 49) {
-//                        alert('invalid value');
-                    } else {
-                        let myNumber = e.target.value;
-                        console.log(myNumber);
-                        console.log(numbers);
-                        let isInArray = isNumberInArray(numbers.slice(0, numberOfElements - 1), myNumber);
-                        console.log('in array? ', isInArray);
-                        
-                        if (!isInArray) {
-                            numbers[e.target.id] = myNumber;
-                        } else {
-                            document.querySelector('.error-message').innerHTML = myNumber + ' is already in the array';
-                            document.getElementById(e.target.id).value = '';
-                        }
-                        
-                        console.log(numbers);
+                    if (e.target.value < "1" || e.target.value > "49") {
+                        document.getElementById(e.target.id).classList.add('invalid');
                     }
                     
-//                    console.log(numbers);
+                    let myNumber = e.target.value;
+                    console.log(myNumber);
+                    console.log(numbers);
+                    let isInArray = isNumberInArray(numbers, myNumber);
+                    console.log('in array? ', isInArray);
+
+                    if (!isInArray) {
+                        numbers[e.target.id] = myNumber;
+                        document.querySelector('.error-message').innerHTML = '';
+                        document.getElementById(e.target.id).classList.remove('invalid');
+                    } else if (myNumber === '') {
+                        document.querySelector('.error-message').innerHTML = 'Empty value in cell ' + e.target.id;
+                    } else {
+                        document.querySelector('.error-message').innerHTML = myNumber + ' is already in the array';
+                        document.getElementById(e.target.id).value = '';
+                    }
+
+                    console.log(numbers);
                 });
             });
             
@@ -70,17 +72,5 @@ and open the template in the editor.
             
 
         </script>
-<!--        <form name="formu" method="POST">
-            <fieldset style="width: 400px;">
-                <label>Números</label>
-                <div id="app"></div>
-            </fieldset>
-            <fieldset style="width: 150px;">
-                <label>Reintegro</label>
-                <input type="number" name="num[]" value="" style="width: 45px;" id="n6" min="0" max="9" onblur="estabienreintegro('n6')">
-            </fieldset>
-        </form>
-        <br>
-        <input type="button" name="boton" value="Comprobar" onclick="comprobar()">-->
     </body>
 </html>

@@ -12,3 +12,25 @@ body {
     background: #eee;
 }
 
+.invalid {
+    border: 1px solid red;
+}
+
+#app {
+    width: 30em;
+    border: 1px solid gray;
+    margin: 2em auto;
+    text-align: center;
+}
+
+#app > input {
+    border: 2px solid #ddd;
+    line-height: 1.5em;
+    background: white;
+    margin-right: 4px;
+    font-size: 1.2em;
+    padding: 0;
+    width: 40px;
+    text-align: center;
+}
+

@@ -6,136 +6,74 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Primitiva</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script>
-            function comprobar() {
-                var usuario;
-                var maquina;
-                var serepite = false;
-                
-                serepite = serepiten();
-                
-                if(serepite){
-                    alert(Número repetido, porfavor introduzca otro);
-                } else{
-                    usuario = numerousuario();
-                    document.write("Tus números: " + usuario.toString() + "<br>");
-                    maquina = generarmaquina();
-                    document.write("Números de la máquina: " + maquina.toString() + "<br>");
-                }
-
-                
-                
-               
-            } 
-            
-            function numerousuario(){
-                var arraynum = [""];
-                var numeros = "";
-                
-                for (var i = 0; i < 7; i++) {
-                    numeros = document.getElementById("n" + i).value;
-                    arraynum[i] = numeros;
-                }
-                
-                return arraynum;
-            }
-    
-   /* function comprobar(){
-        var number;
-        var arraypersona = [];
-        
-        for (var i = 0; i < 6; i++) {
-                    number = document.getElementById("n" + i).value;
-                    arraypersona[i] = number;
-                }
-                
-        for (var i = 0; i < 6; i++) {
-            if(parseInt(arraypersona[i]) >)
-        }
-    } */
-    
-    /**
-     * Método para comprobar si el número está entre los valores permitidos
-     * Actua en el onblur del html en las casillas de los números
-     * @param {type} num
-     * @return {undefined}
-     */
-    function estabien(num){
-        
-        
-        if(document.getElementById(num).value > 49 || document.getElementById(num).value < 1){
-            do{
-                document.getElementById(num).value = prompt("Introduce un número entre 1 y 49");
-            }while(document.getElementById(num).value > 49 || document.getElementById(num).value < 1 );
-        }
-    }
-    
-    function serepiten(){
-        var soniguales = false;
-        var numusuario = numerousuario();
-        
-        for (var i = 0; i < 5; i++) {
-            for (var j = 1; j < 6; j++) {
-                if(numusuario[i] === numusuario[j]){
-                    soniguales = true;
-                }
-            }
-        }
-        return soniguales;
-    }
-    /**
-     * Método para comprobar si el número está entre los valores permitidos
-     * Actua en el onblur del html en la casilla del reintegro
-     * @param {type} num
-     * @return {undefined}
-     */
-    function estabienreintegro(num){
-        
-        
-        if(document.getElementById(num).value > 9 || document.getElementById(num).value < 0){
-            do{
-                document.getElementById(num).value = prompt("Introduce un número entre 0 y 9");
-            }while(document.getElementById(num).value > 9 || document.getElementById(num).value < 0 );
-        }
-    }
-    /**
-     * Método para generar el número premiado
-     * @return {Array|generarmaquina.arraymachine}
-     */
-    function generarmaquina(){
-         var arraymachine = new Array(7);
-                var i = 0;
-                arraymachine[i] = parseInt((Math.random()*49)+1);
-                
-                //Genera numeros aleatorios sin repetir en arraymachine
-                for (i = 1; i < 6; i++) {
-                    arraymachine[i] = parseInt((Math.random()*49)+1);
-                    for (var j = 0; j < 1; j++) {
-                        if(arraymachine[i] === arraymachine[j]){
-                            i--;
-                        }
-                    }         
-                }
-                
-                arraymachine[arraymachine.length-1] = parseInt((Math.random()*10));
-                
-                return arraymachine;
-    }
-        </script>
+        <link rel="stylesheet" href="main.css"/>
     </head>
     <body>
-        <form name="formu" method="POST">
+        <div id="app"></div>
+        <span class="error-message"></span>
+        
+        <script src="main.js"></script>
+        <script>
+            const numberOfElements = 7;
+            
+            let numbers = [];
+            let output = '';
+            for (let i = 0; i < numberOfElements; i++) {
+                output += '<input id="' + i + '" type="number" class="number" min="1" max="49">';
+            }
+            
+            document.getElementById('app').innerHTML = output;
+            
+            // number fields
+            let inputs = document.querySelectorAll('.number');
+            
+            // listen for events
+            inputs.forEach(input => {
+                input.addEventListener('blur', e => {
+                    console.log('value: ', e.target.value);
+                    if (e.target.value < 1 || e.target.value > 49) {
+//                        alert('invalid value');
+                    } else {
+                        let myNumber = e.target.value;
+                        console.log(myNumber);
+                        console.log(numbers);
+                        let isInArray = isNumberInArray(numbers.slice(0, numberOfElements - 1), myNumber);
+                        console.log('in array? ', isInArray);
+                        
+                        if (!isInArray) {
+                            numbers[e.target.id] = myNumber;
+                        } else {
+                            document.querySelector('.error-message').innerHTML = myNumber + ' is already in the array';
+                            document.getElementById(e.target.id).value = '';
+                        }
+                        
+                        console.log(numbers);
+                    }
+                    
+//                    console.log(numbers);
+                });
+            });
+            
+//            if (repeat) {
+//                console.log('numbers are repeated!')
+//            } else {
+//                console.log('numbers are ok')
+//            }
+//            console.log(numbers);
+//            document.addEventListener('click', () => {
+//                document.getElementsByClassName('casilla')
+//            })
+
+            
+
+        </script>
+<!--        <form name="formu" method="POST">
             <fieldset style="width: 400px;">
                 <label>Números</label>
-                <input type="number" name="num[]" value="" style="width: 45px;" id="n0" min="1" max="49" onblur="estabien('n0')">
-                <input type="number" name="num[]" value="" style="width: 45px;" id="n1" min="1" max="49" onblur="estabien('n1')">
-                <input type="number" name="num[]" value="" style="width: 45px;" id="n2" min="1" max="49" onblur="estabien('n2')">
-                <input type="number" name="num[]" value="" style="width: 45px;" id="n3" min="1" max="49" onblur="estabien('n3')">
-                <input type="number" name="num[]" value="" style="width: 45px;" id="n4" min="1" max="49" onblur="estabien('n4')">
-                <input type="number" name="num[]" value="" style="width: 45px;" id="n5" min="1" max="49" onblur="estabien('n5')">
+                <div id="app"></div>
             </fieldset>
             <fieldset style="width: 150px;">
                 <label>Reintegro</label>
@@ -143,6 +81,6 @@ and open the template in the editor.
             </fieldset>
         </form>
         <br>
-        <input type="button" name="boton" value="Comprobar" onclick="comprobar()">
+        <input type="button" name="boton" value="Comprobar" onclick="comprobar()">-->
     </body>
 </html>

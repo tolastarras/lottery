@@ -52,4 +52,23 @@ body {
     color: darkred;
 }
 
+.btn {
+    color: white;
+    background-color: #428bca;
+    margin: .2em .1em;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 700;
+    font-size: 1em;
+    border: none;
+    border-bottom: .15em solid black;
+    border-radius: 3px;
+    padding: .7em 2em;
+    border-color: #337ab7;
+    background-image: linear-gradient(#428bca, #337ab7);
+}
+
+ .btn:hover {
+    background: linear-gradient(#337ab7, #337ab7);
+    cursor: pointer;
+ }
 

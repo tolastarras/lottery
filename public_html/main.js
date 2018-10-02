@@ -11,6 +11,16 @@ const POWER_BALL = LOTTO_NUMBERS - 1;
 
 let numbers = Array(LOTTO_NUMBERS).fill('');
 
+document.querySelector('.btn').addEventListener('click', () => {
+    autoGenerate();
+        
+    console.log(numbers);
+    // load randomly generated array to text inputs
+    for (let i = 0; i < numbers.length; i++) {
+        document.getElementById(i).value = format(numbers[i]);
+    }
+});
+
 let output = '';
 // create input fields
 for (let i = 0; i < numbers.length; i++) {
@@ -43,6 +53,23 @@ inputs.forEach(input => {
     });
 });
 
+autoGenerate = () => {
+    // load array
+    for (let i = 0; i < numbers.length - 1; i++) {
+        let number = getRandomNumber();
+        if (!isNumberInArray(number)) {
+            numbers[i] = number;
+        } else {
+            i--;
+        }
+    }
+    
+    numbers[POWER_BALL] = getRandomNumber();
+}
+
+getRandomNumber = () => {
+    return Math.floor(Math.random() * MAX) + MIN;
+}
 
 /**
  * Invalid input, show errors in real time

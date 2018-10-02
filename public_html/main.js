@@ -6,11 +6,11 @@
 
 const MIN = 1;
 const MAX = 49;
-const numberOfElements = 6;
+const POWER_BALL = 5;
 
 let numbers = [];
 let output = '';
-for (let i = 0; i < numberOfElements; i++) {
+for (let i = 0; i <= POWER_BALL; i++) {
     output += '<input id="' + i + '" type="text" maxlength="2" class="number">';
 }
 
@@ -89,7 +89,11 @@ isNumberInArray = number => {
     console.log('numbers', numbers);
     // do not consider the last array element
     for (let i = 0; i < numbers.length; i++) {
-        if (number === numbers[i] && i !== 5) {
+        console.log("LEN: ", numbers.length);
+        if (i === POWER_BALL - 1) {
+            console.log("power ball");
+        }
+        if (number === numbers[i] && i !== POWER_BALL - 1) {
             return true;
         }
     }

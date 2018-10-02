@@ -31,17 +31,17 @@ body {
 #app > input {
     border: 2px solid #ddd;
     line-height: 1.5em;
-    background: white;
-    margin-right: 10px;
-    margin-top: 14.2em;
+    background: white; /*transparent;*/
+    margin-right: 18px;
+    margin-top: 14em;
     font-size: 1.2em;
     padding: 0;
-    width: 40px;
+    width: 34px;
     text-align: center;
 }
 
 #app > input:last-child {
-    margin-left: 2em;
+    margin-left: 1.6em;
 }
 
 .container {
@@ -51,4 +51,5 @@ body {
 .error-message {
     color: darkred;
 }
+
 

@@ -6,14 +6,18 @@
 
 const MIN = 1;
 const MAX = 49;
-const POWER_BALL = 5;
+const LOTTO_NUMBERS = 6
+const POWER_BALL = LOTTO_NUMBERS - 1;
 
-let numbers = [];
+let numbers = Array(LOTTO_NUMBERS).fill('');
+
 let output = '';
-for (let i = 0; i <= POWER_BALL; i++) {
+// create input fields
+for (let i = 0; i < numbers.length; i++) {
     output += '<input id="' + i + '" type="text" maxlength="2" class="number">';
 }
 
+// add input fields to document
 document.getElementById('app').innerHTML = output;
 
 // number fields
@@ -22,83 +26,97 @@ let inputs = document.querySelectorAll('.number');
 // listen for events
 inputs.forEach(input => {
     input.addEventListener('blur', e => {
-        console.log('value: ', e.target.value);
-
+        let id = e.target.id;
         let myNumber = e.target.value;
+        let number = parseInt(myNumber);
         
-        if (!isValid(myNumber)) {
-            showError(e.target.id);
+        if (!isValid(number)) {
+            showError(id);
         } else {
-            hideError(e.target.id, myNumber);
-            numbers.push(myNumber);
+            // value is not the powerball
+            if (id < POWER_BALL && isNumberInArray(number)) {
+                showError(id);
+            } else {
+                hideError(id, number);
+            }
         }
-        
-//        let isInArray = isNumberInArray(numbers, myNumber);
-//        console.log('in array? ', isInArray);
-//
-//        if (!isInArray) {
-//            numbers[e.target.id] = myNumber;
-//            document.querySelector('.error-message').innerHTML = '';
-//            document.getElementById(e.target.id).classList.remove('invalid');
-//        } else if (myNumber === '') {
-//            document.querySelector('.error-message').innerHTML = 'Empty value in cell ' + e.target.id;
-//        } else {
-//            document.querySelector('.error-message').innerHTML = myNumber + ' is already in the array';
-//            document.getElementById(e.target.id).value = '';
-//        }
-
-//        console.log(numbers);
     });
 });
 
+
+/**
+ * Invalid input, show errors in real time
+ * 
+ * @param {type} id
+ * @returns {undefined}
+ */
 showError = id => {
     document.getElementById(id).classList.add('invalid-input');
     document.querySelector('.error-message').innerHTML = 'Invalid input in cell ' + id;
-    document.getElementById(id).value = '';  
+    document.getElementById(id).value = '';
+    
+    // remove element from numbers array
+    numbers[id] = '';
 }
 
+/**
+ * Valid input, hide errors in real time
+ * 
+ * @param {type} id
+ * @param {type} number
+ * @returns {undefined}
+ */
 hideError = (id, number) => {
     document.getElementById(id).classList.remove('invalid-input');
     document.querySelector('.error-message').innerHTML = '';
-    document.getElementById(id).value = format(number);  
+    document.getElementById(id).value = format(number);
+    
+    // add number to array at position id
+    numbers[id] = parseInt(number);
 }
 
+/**
+ * @param {type} value is a valid number between 1 and 49
+ * @returns {String}
+ */
 format = value => {
-    if (value < 10) {
-        value = '0' + value;
+    let number = Number.parseInt(value);
+    
+    if (number < 10) {
+        value = '0' + number;
     }
+    
     return value;
 }
 
-isValid = value => {
-    let number = Number.parseInt(value);
+/**
+ * Checks the value is a valid number
+ * @param {type} number is an integer
+ * @returns {Boolean}
+ */
+isValid = number => {
+//    let number = Number.parseInt(value);
     
+    // allow non-empty values between 1 and 49
     if (!number || number < MIN || number > MAX) {
-        console.log('invalid input!');
         return false;
     }
-    
-    if (isNumberInArray(value)) return false;
-    
-    console.log("input is ok!");
-    
+
     return true;
 }
 
+/**
+ * Numbers entered by the user
+ * @param {type} number
+ * @returns {Boolean}
+ */
 isNumberInArray = number => {
-    console.log('numbers', numbers);
-    // do not consider the last array element
     for (let i = 0; i < numbers.length; i++) {
-        console.log("LEN: ", numbers.length);
-        if (i === POWER_BALL - 1) {
-            console.log("power ball");
-        }
-        if (number === numbers[i] && i !== POWER_BALL - 1) {
+        // do not consider the power ball element
+        if (parseInt(number) === numbers[i]) {
             return true;
         }
     }
     
     return false;
 }
-
-

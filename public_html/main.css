@@ -16,8 +16,8 @@ body {
     text-align: center;
 }
 
-.invalid {
-    border: 1px solid red;
+.invalid-input {
+    border: 2px solid darkred !important;
 }
 
 #app {

@@ -23,45 +23,70 @@ let inputs = document.querySelectorAll('.number');
 inputs.forEach(input => {
     input.addEventListener('blur', e => {
         console.log('value: ', e.target.value);
-        if (e.target.value < "1" || e.target.value > "49") {
-            document.getElementById(e.target.id).classList.add('invalid');
-        }
 
         let myNumber = e.target.value;
-        console.log(myNumber);
-        console.log(numbers);
-        let isInArray = isNumberInArray(numbers, myNumber);
-        console.log('in array? ', isInArray);
-
-        if (!isInArray) {
-            numbers[e.target.id] = myNumber;
-            document.querySelector('.error-message').innerHTML = '';
-            document.getElementById(e.target.id).classList.remove('invalid');
-        } else if (myNumber === '') {
-            document.querySelector('.error-message').innerHTML = 'Empty value in cell ' + e.target.id;
+        
+        if (!isValid(myNumber)) {
+            showError(e.target.id);
         } else {
-            document.querySelector('.error-message').innerHTML = myNumber + ' is already in the array';
-            document.getElementById(e.target.id).value = '';
+            hideError(e.target.id, myNumber);
+            numbers.push(myNumber);
         }
+        
+//        let isInArray = isNumberInArray(numbers, myNumber);
+//        console.log('in array? ', isInArray);
+//
+//        if (!isInArray) {
+//            numbers[e.target.id] = myNumber;
+//            document.querySelector('.error-message').innerHTML = '';
+//            document.getElementById(e.target.id).classList.remove('invalid');
+//        } else if (myNumber === '') {
+//            document.querySelector('.error-message').innerHTML = 'Empty value in cell ' + e.target.id;
+//        } else {
+//            document.querySelector('.error-message').innerHTML = myNumber + ' is already in the array';
+//            document.getElementById(e.target.id).value = '';
+//        }
 
-        console.log(numbers);
+//        console.log(numbers);
     });
 });
 
+showError = id => {
+    document.getElementById(id).classList.add('invalid-input');
+    document.querySelector('.error-message').innerHTML = 'Invalid input in cell ' + id;
+    document.getElementById(id).value = '';  
+}
+
+hideError = (id, number) => {
+    document.getElementById(id).classList.remove('invalid-input');
+    document.querySelector('.error-message').innerHTML = '';
+    document.getElementById(id).value = format(number);  
+}
+
 format = value => {
-    console.log('value: ', value);
+    if (value < 10) {
+        value = '0' + value;
+    }
+    return value;
 }
 
 isValid = value => {
     let number = Number.parseInt(value);
-    if (!value || value < MIN || value > MAX) return false;
+    
+    if (!number || number < MIN || number > MAX) {
+        console.log('invalid input!');
+        return false;
+    }
+    
+    if (isNumberInArray(value)) return false;
+    
+    console.log("input is ok!");
     
     return true;
 }
 
 isNumberInArray = number => {
-    console.log("My Number", number);
-    console.log("Numbers: ", numbers);
+    console.log('numbers', numbers);
     // do not consider the last array element
     for (let i = 0; i < numbers.length; i++) {
         if (number === numbers[i] && i !== 5) {

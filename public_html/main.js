@@ -11,49 +11,76 @@ const POWER_BALL = LOTTO_NUMBERS - 1;
 
 let numbers = Array(LOTTO_NUMBERS).fill('');
 
-document.querySelector('.btn').addEventListener('click', () => {
-    autoGenerate();
-        
-    console.log(numbers);
-    // load randomly generated array to text inputs
-    for (let i = 0; i < numbers.length; i++) {
-        document.getElementById(i).value = format(numbers[i]);
-    }
-});
+document.querySelector('.generate-js').addEventListener('click', autoGenerate);
+document.querySelector('.manually-js').addEventListener('click', manual);
 
-let output = '';
-// create input fields
-for (let i = 0; i < numbers.length; i++) {
-    output += '<input id="' + i + '" type="text" maxlength="2" class="number">';
+loadInputs();
+
+/**
+ * Load input fields
+ * @returns {undefined}
+ */
+function loadInputs() {
+    let output = '';
+    // create input fields
+    for (let i = 0; i < numbers.length; i++) {
+        output += '<input id="' + i + '" type="text" maxlength="2" class="number">';
+    }
+
+    // add input fields to document
+    document.getElementById('app').innerHTML = output;
+
+    // number fields
+    let inputs = document.querySelectorAll('.number');
+
+    // listen for events
+    inputs.forEach(input => {
+        input.addEventListener('blur', e => {
+            // add event listener if text box is not read only
+            if (!document.getElementById(e.target.id).readOnly) {
+                validate(e.target)
+            }
+        });
+    });
 }
 
-// add input fields to document
-document.getElementById('app').innerHTML = output;
+/**
+ * Validate input fields
+ * 
+ * @param {type} target
+ * @returns {undefined}
+ */
+validate = target => {
+    let id = target.id
+    let myNumber = target.value;
+    let number = parseInt(myNumber);
 
-// number fields
-let inputs = document.querySelectorAll('.number');
-
-// listen for events
-inputs.forEach(input => {
-    input.addEventListener('blur', e => {
-        let id = e.target.id;
-        let myNumber = e.target.value;
-        let number = parseInt(myNumber);
-        
-        if (!isValid(number)) {
+    if (!isValid(number)) {
+        showError(id);
+    } else {
+        // value is not the powerball
+        if (id < POWER_BALL && isNumberInArray(number)) {
             showError(id);
         } else {
-            // value is not the powerball
-            if (id < POWER_BALL && isNumberInArray(number)) {
-                showError(id);
-            } else {
-                hideError(id, number);
-            }
+            hideError(id, number);
         }
-    });
-});
+    }
+    
+    console.log(numbers);
+}
 
-autoGenerate = () => {
+function manual () {
+    for (let i = 0; i < numbers.length; i++) {
+        let element = document.getElementById(i);
+        
+        if (i === 0) element.focus();
+//        element.value = '';
+        element.readOnly = false;
+        element.classList.remove('read-only');
+    }
+}
+
+function autoGenerate() {
     // load array
     for (let i = 0; i < numbers.length - 1; i++) {
         let number = getRandomNumber();
@@ -65,6 +92,22 @@ autoGenerate = () => {
     }
     
     numbers[POWER_BALL] = getRandomNumber();
+    
+    // fill input fields
+    fillInputs();
+}
+
+fillInputs = () => {
+    // load randomly generated array to text inputs
+    for (let i = 0; i < numbers.length; i++) {
+        let element = document.getElementById(i);
+        // format value
+        element.value = format(numbers[i]);
+        element.readOnly = true;
+        element.classList.add('read-only');
+
+        hideError(i, numbers[i]);        
+    }  
 }
 
 getRandomNumber = () => {

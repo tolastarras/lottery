@@ -29,11 +29,11 @@ body {
 }
 
 #app > input {
-    border: 2px solid #ddd;
+    border: 2px solid lightskyblue;
     line-height: 1.5em;
     background: white; /*transparent;*/
     margin-right: 18px;
-    margin-top: 14em;
+    margin-top: 14.2em;
     font-size: 1.2em;
     padding: 0;
     width: 34px;
@@ -44,8 +44,16 @@ body {
     margin-left: 1.6em;
 }
 
+#app > input:first-child {
+    focus: 
+}
+
 .container {
     text-align: center;
+}
+
+#app > input.read-only {
+    border: 2px solid white;
 }
 
 .error-message {

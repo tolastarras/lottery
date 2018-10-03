@@ -138,7 +138,7 @@ isValid = number => {
  * @returns {Boolean}
  */
 isNumberInArray = number => {
-    for (let i = 0; i < numbers.length; i++) {
+    for (let i = 0; i < numbers.length - 1; i++) {
         // do not consider the power ball element
         if (parseInt(number) === numbers[i]) {
             return true;

@@ -26,6 +26,9 @@ function loadInputs() {
     for (let i = 0; i < numbers.length; i++) {
         output += '<input id="' + i + '" type="text" maxlength="2" class="number">';
     }
+    
+    // create date div
+    output += '<div class="today">' + getFormattedDate() + '</div>';
 
     // add input fields to document
     document.getElementById('app').innerHTML = output;
@@ -42,6 +45,14 @@ function loadInputs() {
             }
         });
     });
+}
+
+function getFormattedDate () {
+    let date = new Date();
+    let today = date.toDateString();
+    let year = date.getFullYear().toString();
+
+    return today.replace(year, year.substring(2));
 }
 
 /**
@@ -80,7 +91,7 @@ function manual () {
     }
 }
 
-function autoGenerate() {
+function autoGenerate () {
     // load array
     for (let i = 0; i < numbers.length - 1; i++) {
         let number = getRandomNumber();
